@@ -15,6 +15,19 @@ import axios from 'axios';
 // Your saga should listen for the action type of `GET_ZOO_ANIMALS`
 function* rootSaga() {
     yield takeEvery('GET_ZOO_ANIMALS', fetchZooAnimals);
+    yield takeEvery('CREATE_ANIMAL', createAnimal);
+}
+
+function* createAnimal(action) {
+    yield axios({
+        method: 'POST',
+        url: '/zoo',
+        data: action.payload
+    });
+
+    yield put({
+        type: 'GET_ZOO_ANIMALS'
+    });
 }
 
 function* fetchZooAnimals(action) {
